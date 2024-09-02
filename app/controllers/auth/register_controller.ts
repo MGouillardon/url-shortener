@@ -7,8 +7,8 @@ export default class RegisterController {
   }
 
   public async store({ auth, request, response }: HttpContext) {
-    const { email, password } = request.only(['email', 'password'])
-    const user = await User.create({ email, password })
+    const { fullName, email, password } = request.only(['fullName', 'email', 'password'])
+    const user = await User.create({ fullName, email, password })
 
     try {
       await auth.use('web').login(user)

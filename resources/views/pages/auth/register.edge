@@ -1,15 +1,19 @@
-@component('components/layout/app', { title: 'Sign in' })
+@component('components/layout/app', { title: 'Register' })
 @slot('meta')
-<meta name="description" content="Sign in to your account">
+<meta name="description" content="Register to your account">
 @endslot
 
 @slot('content')
 <div class="flex items-center justify-center h-screen">
   <div class="card bg-base-100 shadow-xl w-96">
     <div class="card-body gap-2">
-      <h2 class="card-title">Sign in</h2>
-      <form action="{{ route('auth.login.handle') }}" method="POST" class="flex flex-col gap-4">
+      <h2 class="card-title">Sign up</h2>
+      <form action="{{ route('auth.register.store') }}" method="POST" class="flex flex-col gap-4">
         {{ csrfField() }}
+        <div class="form-control">
+          <label for="fullName" class="label">Full Name</label>
+          <input type="text" name="fullName" id="fullName" class="input input-bordered w-full max-w-xs" required>
+        </div>
         <div class="form-control">
           <label for="email" class="label">Email</label>
           <input type="email" name="email" id="email" class="input input-bordered w-full max-w-xs" required>
@@ -19,10 +23,10 @@
           <input type="password" name="password" id="password" class="input input-bordered w-full max-w-xs" required>
         </div>
         <div class="form-control">
-          <button type="submit" class="btn btn-primary w-full">Sign in</button>
+          <button type="submit" class="btn btn-primary w-full">Sign up</button>
         </div>
       </form>
-      <p>Don't have an account? <a href="{{route('auth.register')}}" class="link">Sign up</a></p>
+      <p>Already have an account? <a href="{{ route('auth.login') }}" class="link">Sign in</a></p>
     </div>
   </div>
   @endslot
