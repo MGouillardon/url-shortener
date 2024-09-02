@@ -1,29 +1,12 @@
-@component('components/layout/app', { title: 'Sign in' })
-@slot('meta')
-<meta name="description" content="Sign in to your account">
-@endslot
-
-@slot('content')
-<div class="flex items-center justify-center h-screen">
-  <div class="card bg-base-100 shadow-xl w-96">
-    <div class="card-body gap-2">
-      <h2 class="card-title">Sign in</h2>
-      <form action="{{ route('auth.login.handle') }}" method="POST" class="flex flex-col gap-4">
-        {{ csrfField() }}
-        <div class="form-control">
-          <label for="email" class="label">Email</label>
-          <input type="email" name="email" id="email" class="input input-bordered w-full max-w-xs" required>
-        </div>
-        <div class="form-control">
-          <label for="password" class="label">Password</label>
-          <input type="password" name="password" id="password" class="input input-bordered w-full max-w-xs" required>
-        </div>
-        <div class="form-control">
-          <button type="submit" class="btn btn-primary w-full">Sign in</button>
-        </div>
-      </form>
-      <p>Don't have an account? <a href="{{route('auth.register')}}" class="link">Sign up</a></p>
-    </div>
-  </div>
-  @endslot
-  @end
+@component('components/auth_form', {
+title: 'Sign in',
+description: 'Sign in to your account',
+route: route('auth.login'),
+method: 'POST',
+isRegister: false,
+buttonText: 'Sign in',
+alternativeText: 'Don\'t have an account?',
+alternativeRoute: route('auth.register'),
+alternativeLinkText: 'Sign up'
+})
+@end
