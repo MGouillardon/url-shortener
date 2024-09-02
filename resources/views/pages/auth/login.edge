@@ -4,6 +4,26 @@
 @endslot
 
 @slot('content')
-<h1>Sign in</h1>
-@endslot
-@end
+<div class="flex items-center justify-center h-screen">
+  <div class="card bg-base-100 shadow-xl w-96">
+    <div class="card-body gap-2">
+      <h2 class="card-title">Sign in</h2>
+      <form action="{{ route('auth.login.store') }}" method="POST" class="flex flex-col gap-4">
+        {{ csrfField() }}
+        <div class="form-control">
+          <label for="email" class="label">Email</label>
+          <input type="email" name="email" id="email" class="input input-bordered w-full max-w-xs" required>
+        </div>
+        <div class="form-control">
+          <label for="password" class="label">Password</label>
+          <input type="password" name="password" id="password" class="input input-bordered w-full max-w-xs" required>
+        </div>
+        <div class="form-control">
+          <button type="submit" class="btn btn-primary w-full">Sign in</button>
+        </div>
+      </form>
+      <p>Don't have an account? <a href="#" class="link">Sign up</a></p>
+    </div>
+  </div>
+  @endslot
+  @end
