@@ -4,7 +4,22 @@
 @end
 
 @slot('content')
-<div class="flex items-center justify-center h-screen">
+<header>
+  <div class="navbar shadow-lg bg-neutral text-neutral-content absolute">
+    <div class="container mx-auto">
+      <div class="flex-1">
+        <a href="/" class="text-lg font-bold">Url Shortener</a>
+      </div>
+      <div class="flex-none">
+        <form method="POST" action="{{ route('auth.logout') }}">
+          {{ csrfField() }}
+          <button type="submit" class="btn btn-ghost">Logout</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="flex items-center justify-center min-h-screen">
   <div class="card bg-base-100 shadow-xl w-96">
     <div class="card-body gap-2">
       <h2 class="card-title">Shorten your URLs</h2>
