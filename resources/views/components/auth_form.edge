@@ -1,4 +1,4 @@
-@component('components/layout/app', { title: '{{ title }}' })
+@component('components/layout/app')
 @slot('meta')
 <meta name="description" content="{{ description }}">
 @endslot
@@ -15,15 +15,30 @@
           <label for="fullName" class="label">Full Name</label>
           <input type="text" name="fullName" id="fullName" class="input input-bordered w-full max-w-xs" required>
         </div>
+        @inputError(name)
+        @each(message in $messages)
+        <p class="text-red-500 text-xs">{{message}}</p>
+        @endeach
+        @endinputError
         @endif
         <div class="form-control">
           <label for="email" class="label">Email</label>
           <input type="email" name="email" id="email" class="input input-bordered w-full max-w-xs" required>
         </div>
+        @inputError(name)
+        @each(message in $messages)
+        <p class="text-red-500 text-xs">{{message}}</p>
+        @endeach
+        @endinputError
         <div class="form-control">
           <label for="password" class="label">Password</label>
           <input type="password" name="password" id="password" class="input input-bordered w-full max-w-xs" required>
         </div>
+        @inputError(name)
+        @each(message in $messages)
+        <p class="text-red-500 text-xs">{{message}}</p>
+        @endeach
+        @endinputError
         <div class="form-control">
           <button type="submit" class="btn btn-primary w-full">{{ buttonText }}</button>
         </div>
