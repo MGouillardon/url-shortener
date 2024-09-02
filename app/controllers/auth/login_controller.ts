@@ -7,12 +7,13 @@ export default class LoginController {
     return view.render('pages/auth/login')
   }
 
-  public async handle({ auth, request, response }: HttpContext) {
+  public async handle({ auth, request, response, session }: HttpContext) {
     const { email, password } = await request.validateUsing(loginUserValidator)
     const user = await User.verifyCredentials(email, password)
 
     try {
       await auth.use('web').login(user)
+      session.flash('success', 'You have been logged in successfully.')
       response.redirect().toRoute('url')
     } catch (error) {
       response.redirect().back()
