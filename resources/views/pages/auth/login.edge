@@ -8,7 +8,7 @@
   <div class="card bg-base-100 shadow-xl w-96">
     <div class="card-body gap-2">
       <h2 class="card-title">Sign in</h2>
-      <form action="{{ route('auth.login.store') }}" method="POST" class="flex flex-col gap-4">
+      <form action="{{ route('auth.login.handle') }}" method="POST" class="flex flex-col gap-4">
         {{ csrfField() }}
         <div class="form-control">
           <label for="email" class="label">Email</label>
