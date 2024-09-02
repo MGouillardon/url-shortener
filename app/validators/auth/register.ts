@@ -5,7 +5,6 @@ export const registerUserValidator = vine.compile(
     fullName: vine
       .string()
       .minLength(4)
-      .alphaNumeric()
       .unique(async (db, value) => {
         const users = await db.from('users').where('full_name', value).first()
         return !users
