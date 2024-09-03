@@ -64,4 +64,16 @@ export default class UrlController {
       return response.redirect().toRoute('dashboard')
     }
   }
+
+  public async delete({ params, response, session }: HttpContext) {
+    try {
+      const url = await Url.findByOrFail('shortened', params.shortCode)
+      await url.delete()
+      session.flash('success', 'URL deleted successfully')
+    } catch (error) {
+      session.flash('error', "Couldn't delete the URL")
+    }
+
+    return response.redirect().back()
+  }
 }

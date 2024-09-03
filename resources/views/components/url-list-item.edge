@@ -1,9 +1,18 @@
 <li class="border-b pb-2">
-  <p class="font-semibold">{{ url.title || 'Untitled' }}</p>
-  <p class="text-sm text-gray-600 truncate">Original: {{ url.url }}</p>
-  <p class="text-sm">
-    Short: <a href="{{ route('url.redirect', { shortCode: url.shortened }) }}" target="_blank"
-      class="link link-primary">{{ url.shortened }}</a>
-  </p>
-  <p class="text-xs text-gray-500 mt-1">Created: {{ url.createdAt.toFormat('dd/MM/yyyy HH:mm') }}</p>
+  <div class="flex justify-between">
+
+    <div>
+      <p class="font-semibold">{{ url.title || 'Untitled' }}</p>
+      <p class="text-sm text-gray-600 truncate">Original: {{ url.url }}</p>
+      <p class="text-sm">
+        Short: <a href="{{ route('url.redirect', { shortCode: url.shortened }) }}" target="_blank"
+          class="link link-primary">{{ url.shortened }}</a>
+      </p>
+      <p class="text-xs text-gray-500 mt-1">Created: {{ url.createdAt.toFormat('dd/MM/yyyy HH:mm') }}</p>
+    </div>
+    <form action="{{ route('url.delete', { shortCode: url.shortened }) }}" method="POST" class="mt-2">
+      {{ csrfField() }}
+      <button type="submit" class="btn btn-sm btn-error">Delete</button>
+    </form>
+  </div>
 </li>

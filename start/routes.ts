@@ -35,5 +35,6 @@ router
     router.get('dashboard', [UrlController, 'index']).as('dashboard')
     router.post('url', [UrlController, 'store']).as('url.store')
     router.get('/r/:shortCode', [UrlController, 'redirect']).as('url.redirect')
+    router.post('/url/:shortCode/delete', [UrlController, 'delete']).as('url.delete')
   })
   .use(middleware.auth())
