@@ -22,26 +22,45 @@ export default class UrlController {
 
       const newUrl = new Url()
       newUrl.title = title || ''
-      newUrl.url = url
+      newUrl.url = this.normalizeUrl(url)
       newUrl.shortened = await this.generateShortUrl()
 
       await newUrl.related('user').associate(user)
       await newUrl.save()
 
-      session.flash('success', 'URL shortened successfully')
+      session.flash('success', 'URL raccourcie avec succès')
       return response.redirect().back()
     } catch (error) {
-      session.flash('error', 'Failed to shorten URL')
+      session.flash('error', "Échec du raccourcissement de l'URL")
       return response.redirect().back()
     }
   }
 
-  private async generateShortUrl() {
-    return Math.random().toString(36).substring(7)
+  private normalizeUrl(url: string): string {
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      return `https://${url}`
+    }
+    return url
+  }
+
+  private async generateShortUrl(): Promise<string> {
+    let shortUrl: string
+    let existingUrl: Url | null
+
+    do {
+      shortUrl = Math.random().toString(36).substring(7)
+      existingUrl = await Url.findBy('shortened', shortUrl)
+    } while (existingUrl)
+
+    return shortUrl
   }
 
   public async redirect({ params, response }: HttpContext) {
-    const url = await Url.findByOrFail('shortened', params.shortCode)
-    return response.redirect(url.url)
+    try {
+      const url = await Url.findByOrFail('shortened', params.shortCode)
+      return response.redirect(url.url)
+    } catch (error) {
+      return response.redirect().toPath('/')
+    }
   }
 }
