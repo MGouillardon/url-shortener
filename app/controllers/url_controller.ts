@@ -55,12 +55,13 @@ export default class UrlController {
     return shortUrl
   }
 
-  public async redirect({ params, response }: HttpContext) {
+  public async redirect({ params, response, session }: HttpContext) {
     try {
       const url = await Url.findByOrFail('shortened', params.shortCode)
       return response.redirect(url.url)
     } catch (error) {
-      return response.redirect().toPath('/')
+      session.flash('error', 'The URL does not exist')
+      return response.redirect().toRoute('dashboard')
     }
   }
 }
