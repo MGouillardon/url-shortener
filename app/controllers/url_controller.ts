@@ -28,10 +28,10 @@ export default class UrlController {
       await newUrl.related('user').associate(user)
       await newUrl.save()
 
-      session.flash('success', 'URL raccourcie avec succès')
+      session.flash('success', 'URL shortened successfully')
       return response.redirect().back()
     } catch (error) {
-      session.flash('error', "Échec du raccourcissement de l'URL")
+      session.flash('error', "Couldn't shorten the URL")
       return response.redirect().back()
     }
   }
