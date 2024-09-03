@@ -1,105 +1,16 @@
 @component('components/layout/app', { title: 'Url Shortener' })
 @slot('meta')
-<meta name="description" content="Sign in to your account">
+<meta name="description" content="Shorten and manage your URLs">
 @end
 
 @slot('content')
-<header>
-  <div class="navbar shadow-lg bg-neutral text-neutral-content absolute">
-    <div class="container mx-auto">
-      <div class="flex-1">
-        <a href="/" class="text-lg font-bold">Url Shortener</a>
-      </div>
-      <div class="flex-none">
-        <form method="POST" action="{{ route('auth.logout') }}">
-          {{ csrfField() }}
-          <button type="submit" class="btn btn-ghost">Logout</button>
-        </form>
-      </div>
-    </div>
+@include('partials/header')
+
+<main class="flex items-center justify-center min-h-screen max-w-7xl w-full mx-auto">
+  <div class="w-full flex gap-4 min-h-96">
+    @!component('components/url-shortener-form')
+    @!component('components/recent-urls-list', { urls })
   </div>
-</header>
-<div class="flex items-center justify-center min-h-screen max-w-7xl w-full mx-auto">
-  <div class="w-full flex gap-4">
-
-    <div class="card bg-base-100 shadow-xl w-full">
-      <div class="card-body gap-2">
-        <h2 class="card-title">Shorten your URLs</h2>
-        <form action="{{ route('url.store') }}" method="POST" class="flex flex-col gap-4">
-          {{ csrfField() }}
-          <div class="form-control">
-            <label for="title" class="label">URL Name (Optional)</label>
-            <input type="text" name="title" id="title" class="input input-bordered w-full"
-              placeholder="e.g. My Blog Post">
-          </div>
-          @inputError('url')
-          @each(message in $messages)
-          <p class="text-red-500 text-xs">{{ message }}</p>
-          @endeach
-          @endinputError
-          <div class="form-control">
-            <label for="url" class="label">URL to Shorten</label>
-            <input type="text" name="url" id="url" class="input input-bordered w-full" required
-              placeholder="https://example.com/very-long-url">
-          </div>
-          @inputError('url')
-          @each(message in $messages)
-          <p class="text-error text-xs">{{ message }}</p>
-          @endeach
-          @end
-          <div class="form-control">
-            <button type="submit" class="btn btn-primary w-full">Shorten</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="card bg-base-100 shadow-xl w-full">
-      <div class="card-body">
-        <h2 class="card-title mb-4">Your Recent URLs</h2>
-        <ul class="space-y-4">
-          @each(url in urls)
-          <li class="border-b pb-2">
-            <p class="font-semibold">{{ url.title || 'Untitled' }}</p>
-            <p class="text-sm text-gray-600 truncate">Original: {{ url.url }}</p>
-            <p class="text-sm">
-              Short: <a href="{{ route('url.redirect', { shortCode: url.shortened }) }}" target="_blank"
-                class="link link-primary">{{ url.shortened }}</a>
-            </p>
-            <p class="text-xs text-gray-500 mt-1">Created: {{ url.createdAt.toFormat('dd/MM/yyyy HH:mm') }}</p>
-          </li>
-          @else
-          <li>You haven't created any short URLs yet.</li>
-          @endeach
-        </ul>
-        @if(urls && urls.hasPages)
-        <div class="flex justify-center mt-6">
-          <div class="join">
-            @if (urls.currentPage !== urls.firstPage)
-            <a href="{{ route('dashboard', {}, { qs: { page: urls.currentPage - 1 } }) }}"
-              class="join-item btn btn-square" aria-label="Page précédente">
-              &laquo;
-            </a>
-            @endif
-
-            @each(anchor in urls.getUrlsForRange(1, urls.lastPage))
-            <a href="{{ route('dashboard', {}, { qs: { page: anchor.page } }) }}"
-              class="join-item btn btn-square {{ anchor.isActive ? 'btn-active' : '' }}"
-              aria-label="Page {{ anchor.page }}" {{ anchor.isActive ? 'aria-current="page"' : '' }}>
-              {{ anchor.page }}
-            </a>
-            @endeach
-
-            @if (urls.currentPage !== urls.lastPage)
-            <a href="{{ route('dashboard', {}, { qs: { page: urls.currentPage + 1 } }) }}"
-              class="join-item btn btn-square" aria-label="Page suivante">
-              &raquo;
-            </a>
-            @endif
-          </div>
-        </div>
-        @endif
-      </div>
-    </div>
-  </div>
-  @end
-  @end
+</main>
+@end
+@end

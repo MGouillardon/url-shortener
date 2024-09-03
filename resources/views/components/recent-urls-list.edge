@@ -1,0 +1,13 @@
+<div class="card bg-base-100 shadow-xl w-full">
+  <div class="card-body">
+    <h2 class="card-title mb-4">Your Recent URLs</h2>
+    <ul class="space-y-2">
+      @each(url in urls)
+      @!component('components/url-list-item', { url })
+      @else
+      <li>You haven't created any short URLs yet.</li>
+      @endeach
+    </ul>
+  </div>
+  @!component('components/pagination', { urls })
+</div>

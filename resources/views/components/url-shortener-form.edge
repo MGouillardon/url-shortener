@@ -1,0 +1,22 @@
+<div class="card bg-base-100 shadow-xl w-full min-h-[398px]">
+  <div class="card-body">
+    <h2 class="card-title">Shorten your URLs</h2>
+    <form action="{{ route('url.store') }}" method="POST" class="flex flex-col gap-4">
+      {{ csrfField() }}
+      @!component('components/form/input', {
+      name: 'title',
+      label: 'URL Name (Optional)',
+      placeholder: 'e.g. My Blog Post'
+      })
+      @!component('components/form/input', {
+      name: 'url',
+      label: 'URL to Shorten',
+      placeholder: 'https://example.com/very-long-url',
+      required: true
+      })
+      <div class="form-control">
+        <button type="submit" class="btn btn-primary">Shorten</button>
+      </div>
+    </form>
+  </div>
+</div>

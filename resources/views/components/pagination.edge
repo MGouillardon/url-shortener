@@ -1,0 +1,27 @@
+@if(urls && urls.hasPages)
+<div class="flex justify-center mb-6">
+  <div class="join">
+    @if (urls.currentPage !== urls.firstPage)
+    <a href="{{ route('dashboard', {}, { qs: { page: urls.currentPage - 1 } }) }}" class="join-item btn btn-square"
+      aria-label="Previous page">
+      &laquo;
+    </a>
+    @endif
+
+    @each(anchor in urls.getUrlsForRange(1, urls.lastPage))
+    <a href="{{ route('dashboard', {}, { qs: { page: anchor.page } }) }}"
+      class="join-item btn btn-square {{ anchor.isActive ? 'btn-active' : '' }}" aria-label="Page {{ anchor.page }}" {{
+      anchor.isActive ? 'aria-current="page"' : '' }}>
+      {{ anchor.page }}
+    </a>
+    @endeach
+
+    @if (urls.currentPage !== urls.lastPage)
+    <a href="{{ route('dashboard', {}, { qs: { page: urls.currentPage + 1 } }) }}" class="join-item btn btn-square"
+      aria-label="Next page">
+      &raquo;
+    </a>
+    @endif
+  </div>
+</div>
+@endif
