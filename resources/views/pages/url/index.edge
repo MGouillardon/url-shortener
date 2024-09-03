@@ -23,6 +23,21 @@
   <div class="card bg-base-100 shadow-xl w-96">
     <div class="card-body gap-2">
       <h2 class="card-title">Shorten your URLs</h2>
+      <form action="{{ route('url.store') }}" method="POST" class="flex flex-col gap-4">
+        {{ csrfField() }}
+        <div class="form-control">
+          <label for="url" class="label">URL</label>
+          <input type="text" name="url" id="url" class="input input-bordered w-full max-w-xs" required>
+        </div>
+        @inputError('url')
+        @each(message in $messages)
+        <p class="text-red-500 text-xs">{{ message }}</p>
+        @endeach
+        @endinputError
+        <div class="form-control">
+          <button type="submit" class="btn btn-primary w-full">Shorten</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

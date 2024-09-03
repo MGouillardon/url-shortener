@@ -33,5 +33,6 @@ router
 router
   .group(() => {
     router.get('url', [UrlController, 'index']).as('url')
+    router.post('url', [UrlController, 'store']).as('url.store')
   })
   .use(middleware.auth())
