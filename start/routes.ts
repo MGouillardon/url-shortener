@@ -32,7 +32,8 @@ router
 
 router
   .group(() => {
-    router.get('url', [UrlController, 'index']).as('url')
+    router.get('dashboard', [UrlController, 'index']).as('dashboard')
     router.post('url', [UrlController, 'store']).as('url.store')
+    router.get('/r/:shortCode', [UrlController, 'redirect']).as('url.redirect')
   })
   .use(middleware.auth())

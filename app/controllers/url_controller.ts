@@ -4,8 +4,15 @@ import { urlStoreValidator } from '#validators/url/store'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class UrlController {
-  public async index({ view }: HttpContext) {
-    return view.render('pages/url/index')
+  public async index({ view, auth, request }: HttpContext) {
+    const user = auth.user!
+    const page = request.input('page', 1)
+    const urls = await Url.query()
+      .where('userId', user.id)
+      .orderBy('createdAt', 'desc')
+      .paginate(page, 2)
+
+    return view.render('pages/url/index', { urls: urls })
   }
 
   public async store({ request, response, auth, session }: HttpContext) {
@@ -15,7 +22,7 @@ export default class UrlController {
 
       const newUrl = new Url()
       newUrl.title = title || ''
-      newUrl.url = url.trim()
+      newUrl.url = url
       newUrl.shortened = await this.generateShortUrl()
 
       await newUrl.related('user').associate(user)
@@ -31,5 +38,10 @@ export default class UrlController {
 
   private async generateShortUrl() {
     return Math.random().toString(36).substring(7)
+  }
+
+  public async redirect({ params, response }: HttpContext) {
+    const url = await Url.findByOrFail('shortened', params.shortCode)
+    return response.redirect(url.url)
   }
 }
