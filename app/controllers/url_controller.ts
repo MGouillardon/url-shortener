@@ -1,3 +1,4 @@
+import { urlStoreValidator } from '#validators/url/store'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class UrlController {
@@ -6,7 +7,7 @@ export default class UrlController {
   }
 
   public async store({ request, response }: HttpContext) {
-    const url = request.input('url')
+    const url = await request.validateUsing(urlStoreValidator)
 
     return response.json({ url })
   }
